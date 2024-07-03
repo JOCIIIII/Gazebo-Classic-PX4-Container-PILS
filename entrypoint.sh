@@ -124,17 +124,27 @@ else
     if [ -f "${HOME}/log/gazeboRun" ]; then
         rm -rf ${HOME}/log/gazeboRun
     fi
+    
+    # ALLOW PERMISSION FOR PIXHAWK SERIAL PORT
+    sudo chmod 666 /dev/${PIXHAWK_SERIAL_PORT}
+    python3 /home/user/scripts/set_pixhawk_serial_port.py 
+    
+    cd /home/user/PX4-Autopilot
+    source Tools/simulation/gazebo-classic/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default \
+    && gazebo /home/user/PX4-Autopilot/Tools/simulation/gazebo-classic/sitl_gazebo-classic/worlds/${SITL_WORLD}.world
 
     # CREATE EMPTY FILE TO LOG GAZEBO RUYN STATUS
     touch ${HOME}/log/gazeboRun
 
-    ${PX4_SIM_DIR}/gazebo-classic/sitl_run.sh \
-        ${PX4_BINARY_DIR}/px4 \
-        none \
-        ${SITL_AIRFRAME} \
-        ${SITL_WORLD} \
-        ${PX4_SOURCE_DIR} \
-        ${PX4_BUILD_DIR} > ${HOME}/log/gazeboRun
+    # ${SITL_AIRFRAME} 
+
+    # ${PX4_SIM_DIR}/gazebo-classic/sitl_run.sh \
+    #     ${PX4_BINARY_DIR}/px4 \
+    #     none \
+    #     ${SITL_AIRFRAME} \
+    #     ${SITL_WORLD} \
+    #     ${PX4_SOURCE_DIR} \
+    #     ${PX4_BUILD_DIR} > ${HOME}/log/gazeboRun
 
     if [ ! -z ${AIRSIM_IP} ]; then
         echo -e "\033[32mINFO\t[GZ-CLASSIC]\tAIRSIM_IP SET. STARTING AIRSIM BRIDGE..."
@@ -144,3 +154,6 @@ fi
 
 # KEEP CONTAINER ALIVE
 sleep infinity
+
+
+

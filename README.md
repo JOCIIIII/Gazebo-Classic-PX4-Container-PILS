@@ -1,3 +1,8 @@
+# ADDITION FOR PILS by jociiiii
+- allow permission to pixhawk serial port in entrypoint
+- change default serial port to environment value in iris_hitl.world
+
+
 # CONTAINERIZED GAZEBO CLASSIC FOR PX4 SITL
 
 ## 0. OVERVIEW

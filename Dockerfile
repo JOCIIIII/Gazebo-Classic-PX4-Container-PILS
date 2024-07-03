@@ -145,8 +145,12 @@ RUN \
     mkdir /home/user/scripts \
     && sudo ln -s /usr/local/bin/entrypoint.sh /home/user/scripts/entrypoint.sh
 
+# CHANGE DEFAULT SERIAL PORT TO ENVIRONMENT VALUE
+COPY --chown=user:user \
+    set_pixhawk_serial_port.py /home/user/scripts/set_pixhawk_serial_port.py
+
 # AirSim GazeboDrone Binary For Updating States to AirSim Simulation
-COPY --chown=user:user --from=kestr3l/airsim:1.8.1-dev-gzdrone \
+COPY --chown=user:user --from=kestr3l/airsim:dev-1.8.1-gzdrone \
     /home/ue4/AirSim/GazeboDrone/build/GazeboDrone \
     /home/user/scripts/AirSimBridge
 
@@ -156,5 +160,5 @@ CMD [ "/usr/local/bin/entrypoint.sh" ]
 # DOCKER_BUILDKIT=1 docker build \
 # --build-arg BASEIMAGE=ubuntu \
 # --build-arg BASETAG=20.04 \
-# -t kestr3l/gazebo:classic-11 \
+# -t jociiiii/gazebo:classic-11 \
 # -f ./Dockerfile .
